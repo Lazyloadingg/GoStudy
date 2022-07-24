@@ -1,5 +1,7 @@
 package main
 
+//学习博客
+// https://www.liwenzhou.com/posts/Go/12-interface/
 import "fmt"
 
 type Cat struct{}
@@ -105,7 +107,10 @@ func main() {
 	m["habit"] = []interface{}{} //爱好习惯切片类型，切片中又是任意类型
 	fmt.Printf("m: %v\n", m)
 
-	var w ReadWriter
-	w.read()
+	//空接口不能调用任何方法 否则会panic报错
+	// var w ReadWriter
+	// w.read()
+
+	//接口类型变量因为可以接受任意实现了全部接口方法的类型，因此接口类型变量内部分为两部分，第一部分记录变量数据具体哪个类型，第二部分记录值
 
 }
