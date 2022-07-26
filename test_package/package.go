@@ -15,6 +15,7 @@ func main() {
 
 	// init() 手动调用会报错
 	fmt.Printf("\"main\": %v\n", "main")
+	Say()
 }
 
 /*
