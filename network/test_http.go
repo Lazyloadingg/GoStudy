@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
 )
 
 func main() {
@@ -18,17 +18,24 @@ func main() {
 	// 	fmt.Printf("百度res: %v\n", res)
 	// }
 
-	r := gin.Default()
-	r.GET("/", ginGet)
-	r.Run(":9000")
+	//同文件实现
+	// r := gin.Default()
+	// r.GET("/", ginGet)
+	// r.Run(":9000")
+
+	//接口多了后分文件实现
+	r := setUpRouter()
+	if err := r.Run(); err != nil {
+		fmt.Printf("err: %v\n", err)
+	}
 
 }
 
-func ginGet(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"data": "白日依山尽",
-	})
-}
+// func ginGet(c *gin.Context) {
+// 	c.JSON(200, gin.H{
+// 		"data": "白日依山尽",
+// 	})
+// }
 
 // func handle(res http.ResponseWriter, req *http.Request) {
 // 	req.ParseForm()
