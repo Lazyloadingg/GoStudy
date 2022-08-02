@@ -9,6 +9,8 @@ import (
 var g sync.WaitGroup
 
 func main() {
+	//博客
+	// https://www.liwenzhou.com/posts/Go/concurrence/
 
 	// hello()
 	// fmt.Printf("\"你好世界\": %v\n", "你好世界")
@@ -44,11 +46,14 @@ func main() {
 
 	//写一个iOS常写的GCD任务顺序的go实现
 	for i := 0; i < 10; i++ {
-		g.Add(1)
+		g.Add(1)//启动一个goroutine就 +1
 		go showNum(i)
 
 	}
-	g.Wait()
+	g.Wait()//等待所有登记的goroutine完成，
+	/*
+	sync.WaitGroup里配套使用的Add(),Done(),Wait()真的和GCD中信号量很像
+	*/
 
 }
 
@@ -59,7 +64,7 @@ func hello() {
 }
 
 func showNum(i int) {
-	defer g.Done()
+	defer g.Done()//结束一个goroutine就 -1
 	fmt.Printf("看看i: %v\n", i)
 
 }
