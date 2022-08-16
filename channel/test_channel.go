@@ -8,7 +8,8 @@ func main() {
 	// test2()
 	// test3()
 	// test4()
-	test5()
+	// test5()
+	test6()
 }
 
 func test1() {
@@ -93,12 +94,14 @@ func test5() {
 	cn <- 20
 	//然后关闭通道
 	close(cn)
+
 	//此时虽然缓冲区未满，但是通道已经关闭了，因此通道无法再接收值
 	// cn <- 30
 
+	//循环取出通道所有值，通道所有值被取出是会自动退出循环
 	for {
-
 		//从通道可以取出多个返回值，第一个为value，第二个为通道状态，false表示关闭，true表示开启
+		//目前Go语言中并没有提供一个不对通道进行读取操作就能判断通道是否被关闭的方法。不能简单的通过len(ch)操作来判断通道是否被关闭。
 		x, ok := <-cn
 		fmt.Printf("x: %v\n", x)
 		fmt.Printf("ok: %v\n", ok)
@@ -107,5 +110,27 @@ func test5() {
 			break
 		}
 		fmt.Printf("\"通道仍开启\": %v\n", "通道仍开启")
+	}
+}
+
+//多路复用，同时接收多个chan通道的值
+func test6() {
+
+	ch := make(chan int, 1)
+	count := 10
+
+	for i := 0; i < count; i++ {
+		select {
+		case x := <-ch:
+			{
+				fmt.Printf("x: %v\n", x)
+			}
+
+		case ch <- i:
+			{
+
+			}
+
+		}
 	}
 }
