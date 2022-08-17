@@ -120,6 +120,7 @@ func test6() {
 	count := 10
 
 	for i := 0; i < count; i++ {
+		//select可以处理多个chan操作，每个case分支对应一个处理操作，符合条件就执行对应的case分支，如果有多个case符合，随机执行其中一个
 		select {
 		case x := <-ch:
 			{
