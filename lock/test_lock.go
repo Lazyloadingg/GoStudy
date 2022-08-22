@@ -12,11 +12,14 @@ var wg sync.WaitGroup
 var m sync.Mutex
 var rwm sync.RWMutex
 
+
+
 func main() {
 	// test1()
 	// test2()
 	//加锁访问，test2中是只要访问x 就加锁，无论是读还是写，单有时候我们要求实现多读单写，iOS中通过栅栏加group可以实现
-	test3()
+	// test3()
+	
 }
 func test1() {
 	wg.Add(2)

@@ -1,9 +1,5 @@
 package main
 
-import (
-	"fmt"
-)
-
 func main() {
 
 	//原生net框架实现web服务器
@@ -24,10 +20,13 @@ func main() {
 	// r.Run(":9000")
 
 	//接口多了后分文件实现
-	r := setUpRouter()
-	if err := r.Run(); err != nil {
-		fmt.Printf("err: %v\n", err)
-	}
+	// r := setUpRouter()
+	// if err := r.Run(); err != nil {
+	// 	fmt.Printf("err: %v\n", err)
+	// }
+
+	//原生网络框架实现客户端
+	httpClient()
 
 }
 
