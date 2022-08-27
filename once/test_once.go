@@ -21,7 +21,7 @@ func main() {
 
 //获取单例对象
 func shared() *Person {
-	//go中通过sync中的once保证代码只执行一次，once是一个结构体，内部只有一个go函数
+	//go中通过sync中的once保证代码只执行一次，once是一个结构体，内部只有一个Do函数
 	once.Do(func() {
 		instance = &Person{}
 		fmt.Printf("\"执行\": %v\n", "执行")
