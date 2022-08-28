@@ -26,6 +26,8 @@ var (
 
 var db *sql.DB
 
+// 参考博客
+// https://www.liwenzhou.com/posts/Go/go_mysql/
 func main() {
 	err := initDB()
 	if err != nil {
@@ -47,11 +49,34 @@ func main() {
 		fmt.Printf("user: %v\n", user)
 	}
 
-	results := queryUsers(0)
-	if len(results) > 0 {
-		fmt.Printf("\"多行查询成功\": %v   %v\n", "多行查询成功", results)
-	}
+	// //查
+	// results := queryUsers(0)
+	// if len(results) > 0 {
+	// 	fmt.Printf("\"多行查询成功\": %v   %v\n", "多行查询成功", results)
+	// }
+	// //删
+	// ret := deleteUserWithId(5)
+	// if ret {
+	// 	fmt.Print("删除成功")
+	// } else {
+	// 	fmt.Print("删除失败")
+	// }
 
+	// //改
+	// update := updateUser(6, "小红")
+
+	// if update {
+	// 	fmt.Print("更新成功")
+	// } else {
+	// 	fmt.Print("更新失败")
+	// }
+
+	//以上的增删改查操作都是拼接sql语句直接执行，
+	//还可以不拼接，通过预处理操作完成
+	// prepareExam()
+
+	//事务操作
+	transactionExce()
 }
 
 func initDB() (err error) {
@@ -68,6 +93,7 @@ func initDB() (err error) {
 
 }
 
+//插入
 func addUser(user Person) (bool, int) {
 	sql := fmt.Sprintf("insert into %s(name,age) VALUES(?,?)", userTableName)
 	result, err := db.Exec(sql, user.name, user.age)
@@ -86,7 +112,7 @@ func addUser(user Person) (bool, int) {
 
 //单行查询
 func queryUserWithId(id int) Person {
-	sql := fmt.Sprintf("select name,age from %s where id= ?", userTableName)
+	sql := fmt.Sprintf("select id,name,age from %s where id= ?", userTableName)
 	var user Person
 	err := db.QueryRow(sql, id).Scan(&user.id, &user.name, &user.age)
 	if err != nil {
@@ -98,7 +124,7 @@ func queryUserWithId(id int) Person {
 //多行查询
 func queryUsers(id int) []Person {
 
-	sql := fmt.Sprintf("select name,age from %s where id > ?", userTableName)
+	sql := fmt.Sprintf("select id,name,age from %s where id > ?", userTableName)
 	results, err := db.Query(sql, id)
 	if err != nil {
 		fmt.Printf("\"查询失败\": %v\n", "查询失败")
@@ -106,7 +132,7 @@ func queryUsers(id int) []Person {
 	res := make([]Person, 0)
 	for results.Next() {
 		var user Person
-		err := results.Scan(&user.name, &user.age)
+		err := results.Scan(&user.id, &user.name, &user.age)
 		if err != nil {
 			continue
 		}
@@ -114,4 +140,41 @@ func queryUsers(id int) []Person {
 		res = append(res, user)
 	}
 	return res
+}
+
+//删除
+func deleteUserWithId(id int) bool {
+	sql := fmt.Sprintf("delete from %s where id = ?", userTableName)
+
+	res, err := db.Exec(sql, id)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		return false
+	}
+	row, err := res.RowsAffected()
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		return false
+	}
+	fmt.Printf("\"删除成功\": %v  %d\n", "删除成功", row)
+	return true
+
+}
+
+//更新
+func updateUser(id int, name string) bool {
+	sql := fmt.Sprintf("update %s set name=? where id = ?", userTableName)
+	result, err := db.Exec(sql, name, id)
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		return false
+	}
+	row, err := result.RowsAffected()
+	if err != nil {
+		fmt.Printf("err: %v\n", err)
+		return false
+	}
+	fmt.Printf("更新成功row: %v\n", row)
+	return true
+
 }
