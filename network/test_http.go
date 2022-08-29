@@ -17,9 +17,9 @@ func main() {
 	// }
 
 	//同文件实现
-	r := gin.Default()
-	r.GET("/", ginGet)
-	r.Run(":9000")
+	// r := gin.Default()
+	// r.GET("/", ginGet)
+	// r.Run(":9000")
 
 	//接口多了后分文件实现
 	// r := setUpRouter()
