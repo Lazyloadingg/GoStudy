@@ -18,9 +18,11 @@ func prepareExam() {
 	}
 }
 
+//预处理查询(添加，删除，更新流程类似)
 func prepareQuery(id int) []Person {
 	//
 	sql := fmt.Sprintf("select id,name ,age from %s where id > ?", userTableName)
+	//先提交sql语句，返回一个`statement`，后续的数据部分操作通过这个`statement`进行
 	st, err := db.Prepare(sql)
 	if err != nil {
 		fmt.Printf("预处理查询失败err: %v\n", err)
@@ -29,6 +31,8 @@ func prepareQuery(id int) []Person {
 	defer st.Close()
 
 	res := make([]Person, 0)
+
+	//通过`statement`执行操作并传入条件数据
 	rows, err := st.Query(id)
 	if err != nil {
 		fmt.Printf("预处理查询失败err: %v\n", err)

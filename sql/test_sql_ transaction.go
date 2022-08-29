@@ -19,7 +19,7 @@ func transactionExce() {
 
 	sql := fmt.Sprintf("update %v set name = ? where id = ?", userTableName)
 
-	ret, err := tx.Exec(sql, "小刚", 2)
+	ret, err := tx.Exec(sql, "小刚1", 2)
 	if err != nil {
 		fmt.Printf("err: %v\n", err)
 		tx.Rollback()
@@ -36,7 +36,7 @@ func transactionExce() {
 	fmt.Printf("更新姓名成功row: %v\n", row)
 	sql1 := fmt.Sprintf("update %v set age = ? where id = ?", userTableName)
 
-	ret1, err1 := tx.Exec(sql1, 20, 2)
+	ret1, err1 := tx.Exec(sql1, 21, 2)
 
 	if err1 != nil {
 		fmt.Printf("err1: %v\n", err1)

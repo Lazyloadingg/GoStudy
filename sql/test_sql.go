@@ -36,18 +36,18 @@ func main() {
 		fmt.Printf("\"数据库连接成功\": %v\n", "数据库连接成功")
 	}
 
-	user := Person{
-		name: "小明",
-		age:  18,
-	}
+	// user := Person{
+	// 	name: "小明",
+	// 	age:  18,
+	// }
 
-	result, id := addUser(user)
-	fmt.Printf("result: %v\n", result)
-	if result {
-		fmt.Printf("\"插入id\": %v  %v\n", "插入成功", id)
-		user := queryUserWithId(id)
-		fmt.Printf("user: %v\n", user)
-	}
+	// result, id := addUser(user)
+	// fmt.Printf("result: %v\n", result)
+	// if result {
+	// 	fmt.Printf("\"插入id\": %v  %v\n", "插入成功", id)
+	// 	user := queryUserWithId(id)
+	// 	fmt.Printf("user: %v\n", user)
+	// }
 
 	// //查
 	// results := queryUsers(0)
@@ -76,11 +76,18 @@ func main() {
 	// prepareExam()
 
 	//事务操作
-	transactionExce()
+	// transactionExce()
+
+	//sqlx操作
+	sqlxTest()
+}
+
+func getSqlDriver() string {
+	return fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s", dbUserName, dbPass, dbHost, dbPort, dbName, dbCharset)
 }
 
 func initDB() (err error) {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s", dbUserName, dbPass, dbHost, dbPort, dbName, dbCharset)
+	dsn := getSqlDriver()
 	db, err = sql.Open("mysql", dsn)
 	if err != nil {
 		return err
@@ -114,7 +121,7 @@ func addUser(user Person) (bool, int) {
 func queryUserWithId(id int) Person {
 	sql := fmt.Sprintf("select id,name,age from %s where id= ?", userTableName)
 	var user Person
-	err := db.QueryRow(sql, id).Scan(&user.id, &user.name, &user.age)
+	err := db.QueryRow(sql, id).Scan(&user.id, &user.name, &user.age) //
 	if err != nil {
 		fmt.Printf("\"查询失败%v\": %v\n", err, "查询失败")
 	}

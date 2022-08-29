@@ -1,5 +1,7 @@
 package main
 
+import "github.com/gin-gonic/gin"
+
 func main() {
 
 	//原生net框架实现web服务器
@@ -15,9 +17,9 @@ func main() {
 	// }
 
 	//同文件实现
-	// r := gin.Default()
-	// r.GET("/", ginGet)
-	// r.Run(":9000")
+	r := gin.Default()
+	r.GET("/", ginGet)
+	r.Run(":9000")
 
 	//接口多了后分文件实现
 	// r := setUpRouter()
@@ -30,11 +32,11 @@ func main() {
 
 }
 
-// func ginGet(c *gin.Context) {
-// 	c.JSON(200, gin.H{
-// 		"data": "白日依山尽",
-// 	})
-// }
+func ginGet(c *gin.Context) {
+	c.JSON(200, gin.H{
+		"data": "白日依山尽",
+	})
+}
 
 // func handle(res http.ResponseWriter, req *http.Request) {
 // 	req.ParseForm()
