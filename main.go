@@ -52,7 +52,7 @@ func main() {
 	// test_flow()
 
 	// test_array()
-	// test_slice()
+	test_slice()
 	// test_map()
 	fmt.Printf("%v", test_repeatCount("how do you do"))
 }
@@ -173,7 +173,7 @@ func test_slice() {
 
 	//声明切片方式1 ： 这种方式情况下切片分配内存并初始化，为初始值
 	var s2 = make([]int, 2)
-	fmt.Printf("指针：%p , s2: %v\n", &s2, s2)
+	fmt.Printf("--指针：%p , s2: %v\n", &s2, s2)
 
 	//通过数组方式初始化
 	arr := [...]int{1, 2, 3, 4, 5, 6}
