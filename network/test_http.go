@@ -1,7 +1,5 @@
 package main
 
-import "github.com/gin-gonic/gin"
-
 func main() {
 
 	//原生net框架实现web服务器
@@ -16,11 +14,6 @@ func main() {
 	// 	fmt.Printf("百度res: %v\n", res)
 	// }
 
-	//同文件实现
-	// r := gin.Default()
-	// r.GET("/", ginGet)
-	// r.Run(":9000")
-
 	//接口多了后分文件实现
 	// r := setUpRouter()
 	// if err := r.Run(); err != nil {
@@ -28,14 +21,12 @@ func main() {
 	// }
 
 	//原生网络框架实现客户端
-	httpClient()
+	// httpClient()
 
-}
+	//gin实现webserver
+	sqlxDB()
+	webServer()
 
-func ginGet(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"data": "白日依山尽",
-	})
 }
 
 // func handle(res http.ResponseWriter, req *http.Request) {
