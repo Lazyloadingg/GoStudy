@@ -52,3 +52,20 @@ func queryUserWithID(id int) (error, Person) {
 		return nil, user
 	}
 }
+
+func addUser(user Person) error {
+	sql := fmt.Sprintf("insert into %s (name,age,nick_name,id_number,gender,phone) values(?,?,?,?,?,?)", userTableName)
+	res, err := dbx.Exec(sql, user.Name, user.Age, user.NickName, user.IDNumber, user.Gender, user.Phone)
+	if err != nil {
+		fmt.Printf("添加用户失败err: %v\n", err)
+		return err
+	}
+	row, err := res.LastInsertId()
+	if err != nil {
+		fmt.Printf("添加用户失败err: %v\n", err)
+		return err
+	}
+	fmt.Printf("添加成功row: %v\n", row)
+	return nil
+
+}
