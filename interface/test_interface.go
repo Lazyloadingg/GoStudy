@@ -2,7 +2,9 @@ package main
 
 //学习博客
 // https://www.liwenzhou.com/posts/Go/12-interface/
-import "fmt"
+import (
+	"fmt"
+)
 
 type Cat struct{}
 
@@ -25,13 +27,13 @@ type Sayer interface {
 	Eat()
 }
 
-//接收实现了所有接口方法的类型
+// 接收实现了所有接口方法的类型
 func AnimalSay(s Sayer) {
 	fmt.Printf("\"Animal\": %v\n", "Animal")
 	s.Say()
 }
 
-//接口也可以组合起来生成新的接口
+// 接口也可以组合起来生成新的接口
 type Reader interface {
 	read()
 }
@@ -46,17 +48,28 @@ type ReadWriter interface {
 type Person struct {
 }
 
-func (p Person) read() {
+// 结构体中有其他结构体作为成员变量，可以实现类似`继承`的效果，调用成员结构体的方法函数
+type Student struct {
+	Person
+}
 
+func (p Person) read() {
+	fmt.Printf("\"读书\": %v\n", "读书")
 }
 func (p Person) write() {
 
 }
 
-//空接口 空接口就是没有定义任何方法的接口，那么任何类型都可以认为是实现了空接口，因此空接口变量可以接受任意类型的值
+// 重写read，`Student`中的`Person`已经实现了`read`方法，那么如果`Student`再实现方法内部要写完整
+func (s Student) read() {
+	// s.read()不能这么写，会产生歧义导致报错
+	s.Person.read() //如果内部要调用`Person`的`read`方法，必须写完整
+}
+
+// 空接口 空接口就是没有定义任何方法的接口，那么任何类型都可以认为是实现了空接口，因此空接口变量可以接受任意类型的值
 type empty interface{}
 
-//作为函数参数，接收任意类型的值
+// 作为函数参数，接收任意类型的值
 func anyType(e empty) {
 	fmt.Printf("任意类型e: %v %T\n", e, e)
 }
@@ -112,5 +125,14 @@ func main() {
 	// w.read()
 
 	//接口类型变量因为可以接受任意实现了全部接口方法的类型，因此接口类型变量内部分为两部分，第一部分记录变量数据具体哪个类型，第二部分记录值
+
+	// 结构体中有其他结构体作为成员变量，可以实现类似`继承`的效果，调用成员结构体的方法函数
+
+	st := Student{}
+	st.read()        //结构体`Student`中有匿名成员`Person`，`Person`实现了`read`函数，因此st可以直接通过`.`调用`read`函数
+	st.Person.read() //上面是简略写法，这是完整写法
+
+}
+func test(a any) {
 
 }
