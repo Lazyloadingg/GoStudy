@@ -133,6 +133,3 @@ func main() {
 	st.Person.read() //上面是简略写法，这是完整写法
 
 }
-func test(a any) {
-
-}

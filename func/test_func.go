@@ -74,7 +74,7 @@ func test_1() {
 	fmt.Printf("res: %v\n", res)
 }
 
-//闭包，和swift也类似，都是封装了函数+函数调用环境（包含内部使用的变量等）
+//闭包，和swift也类似，都是封装了函数+函数调用环境，他是有状态的函数（包含内部使用的变量等）
 func test_closure() {
 	//fn为闭包
 	var fn = test_closure1()
