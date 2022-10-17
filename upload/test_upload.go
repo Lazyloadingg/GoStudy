@@ -56,8 +56,8 @@ func main() {
 	// 	return
 	// }
 
-	// ReadInfoPList("./Payload/CollegeEnglishTest.app/info.plist")
-	CreatePlist()
+	ReadInfoPList("./Payload/test.app/info.plist")
+	// CreatePlist()
 
 }
 func findDir(dir string) string {

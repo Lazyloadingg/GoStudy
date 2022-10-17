@@ -34,17 +34,17 @@ func ReadInfoPList(path string) {
 
 		if v.Text() == "CFBundleDisplayName" {
 			infoMap["displayName"] = dictchild[index+1].Text()
-		} else if v.Text() == "CFBundleShortVersionString" {
+		} else if v.Text() == "CFBundleShortVersionString" && v.Tag == "key"{
 			infoMap["version"] = dictchild[index+1].Text()
-		} else if v.Text() == "CFBundleVersion" {
+		} else if v.Text() == "CFBundleVersion" && v.Tag == "key"{
 			infoMap["build"] = dictchild[index+1].Text()
-		} else if v.Text() == "CFBundleIdentifier" {
+		} else if v.Text() == "CFBundleIdentifier" && v.Tag == "key"{
 			infoMap["bundleID"] = dictchild[index+1].Text()
-		} else if v.Text() == "MinimumOSVersion" {
+		} else if v.Text() == "MinimumOSVersion" && v.Tag == "key"{
 			infoMap["minOSVersion"] = dictchild[index+1].Text()
 		}
 
-		fmt.Printf("%v--child: %v\n", index, v.Text())
+		fmt.Printf("%v--child: %v--%v\n", index, v.Text(), v.Tag)
 	}
 
 	var ipainfo IPAInfo

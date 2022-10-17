@@ -36,7 +36,7 @@ func CreatePlist() {
 	urlK := pkgDict.CreateElement("key")
 	urlK.CreateText("url")
 	urlV := pkgDict.CreateElement("string")
-	urlV.CreateText("https://sit-f01.hongxinshop.com/image/")
+	urlV.CreateText("")
 
 	//full-image
 	fullDict := assetArr.CreateElement("dict")
@@ -74,7 +74,7 @@ func CreatePlist() {
 	metadataK := item.CreateElement("key")
 	metadataK.CreateText("metadata")
 	metadataDict := item.CreateElement("dict")
-	createMetadata("baidu.com", "1.0.0", "四六级", metadataDict)
+	createMetadata("baidu.com", "1.0.0", "app", metadataDict)
 	newdoc.WriteTo(os.Stdout)
 	newdoc.WriteToFile("./test.plist")
 }
