@@ -9,6 +9,9 @@ import (
 	"net/rpc/jsonrpc"
 )
 
+//rpc
+// https://chai2010.cn/advanced-go-programming-book/ch4-rpc/ch4-01-rpc-intro.html
+
 // 定义服务
 type TestService struct{}
 
@@ -23,7 +26,8 @@ func main() {
 	//2. 注册服务
 
 	// gorpc()
-	jsonrpcServer()
+	// jsonrpcServer()
+	AbsServer()
 }
 
 // gorpc，只能go语言服务之间调用，不能跨语言
@@ -74,14 +78,36 @@ func jsonrpcServer() {
 	}
 
 	for {
-		//接收连接
+		//接收客户端连接
 		con, err := lis.Accept()
 		if err != nil {
 			continue
 		}
 		go func(conn net.Conn) {
 			log.Printf("客户端进入")
+			//内部读取客户端连接传过来的值后，通过反射取到具体的服务类型，方法等，进而调用具体的服务方法实现
 			jsonrpc.ServeConn(conn)
 		}(con)
+	}
+}
+
+// 封装服务为结构体方式调用
+func AbsServer() {
+	err := RegisterHelloService(new(HelloService))
+	if err != nil {
+		fmt.Printf("\"注册服务失败\": %v\n", "注册服务失败")
+	}
+	listener, err := net.Listen("tcp", ":9900")
+	if err != nil {
+		log.Fatal("ListenTCP error:", err)
+	}
+
+	for {
+		conn, err := listener.Accept()
+		if err != nil {
+			log.Fatal("Accept error:", err)
+		}
+
+		go rpc.ServeConn(conn)
 	}
 }
