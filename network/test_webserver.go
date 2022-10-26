@@ -11,7 +11,7 @@ import (
 func webServer() {
 
 	r := gin.Default()
-
+r.Use()
 	r.POST("/register", registerUser)
 	r.GET("/queryUser", queryUser)
 	r.Run(":9000")

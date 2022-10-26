@@ -24,8 +24,9 @@ func main() {
 	// httpClient()
 
 	//gin实现webserver
-	sqlxDB()
-	webServer()
+	// sqlxDB()
+	// webServer()
+	initServer()
 
 }
 

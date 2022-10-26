@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"time"
 )
 
-//定义函数类型，写法也和swift类似
+// 定义函数类型，写法也和swift类似
 type test func(int, int) int
 
 func main() {
@@ -31,23 +32,36 @@ func main() {
 	// defer calc("BB", x, calc("B", x, y))
 	// y = 20
 
-	test_error()
-	fmt.Printf("\"处理完异常\": %v\n", "处理完异常")
+	// test_error()
+	// fmt.Printf("\"处理完异常\": %v\n", "处理完异常")
+
+	fn := func(a string) {
+		fmt.Printf("a: %v\n", a)
+	}
+	testCallBack(fn)
 
 }
 
-//有参数有返回值
+// 参数为回调函数
+func testCallBack(callback func(string)) {
+
+	time.Sleep(time.Second * 2)
+	callback("回调值")
+
+}
+
+// 有参数有返回值
 func test_func(a int, b int) (ret int) {
 	ret = a + b + 1
 	return ret
 }
 
-//无参数有返回值
+// 无参数有返回值
 func test_func1() int {
 	return 10
 }
 
-//可变参数，args本质是一个切片；这里可变参数和swift里类似
+// 可变参数，args本质是一个切片；这里可变参数和swift里类似
 func test_sum(args ...int) int {
 	fmt.Println(args)
 	sum := 0
@@ -58,7 +72,7 @@ func test_sum(args ...int) int {
 
 }
 
-//匿名函数，整体也和swift很像，上手很容易
+// 匿名函数，整体也和swift很像，上手很容易
 func test_1() {
 
 	//匿名函数因为没有函数名无法直接调用，因此需要保存到一个变量中进行调用
@@ -74,7 +88,7 @@ func test_1() {
 	fmt.Printf("res: %v\n", res)
 }
 
-//闭包，和swift也类似，都是封装了函数+函数调用环境，他是有状态的函数（包含内部使用的变量等）
+// 闭包，和swift也类似，都是封装了函数+函数调用环境，他是有状态的函数（包含内部使用的变量等）
 func test_closure() {
 	//fn为闭包
 	var fn = test_closure1()
@@ -95,7 +109,8 @@ func test_closure1() func(int) int {
 	}
 }
 
-/**
+/*
+*
 defer 被defer修饰的语句会在作用域结束前最后执行，如果有多个被defer修饰的语句，先defer的语句，后执行，但是所有defer语句都晚于其他语句执行
 在Go语言的函数中return语句在底层并不是原子操作，它分为给返回值赋值和RET指令两步。而defer语句执行的时机就在返回值赋值操作后，RET指令执行前。具体如下图所示：
 */
